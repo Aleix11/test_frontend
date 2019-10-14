@@ -15,13 +15,14 @@ export class HomePage implements OnInit{
   @ViewChild(IonInfiniteScroll, null) infiniteScroll: IonInfiniteScroll;
   gnomes : Gnome[] = [];
   page : number = 0;
+  searchText : string = '';
 
   constructor(private passGnome: PassGnome,
               private gnomeService: GnomeService,
               public router: Router) {}
 
   ngOnInit() {
-    this.loadData();
+    this.loadData(null, '');
   }
 
   showGnome(gnome: Gnome) {
@@ -29,25 +30,37 @@ export class HomePage implements OnInit{
     this.router.navigate(['info-gnome']);
   }
 
-  loadData(event) {
+  loadData(event, search) {
     this.page++;
-    console.log('PAGE ', this.page);
+    console.log('PAGE ', this.page, search);
     this.gnomeService.getGnome().subscribe(gnomes => {
-        for(let i = 100 * (this.page-1); i < 100 * this.page ; i++) {
-            this.gnomes.push(gnomes['Brastlewark'][i]);
-            console.log(i);
+      gnomes['Brastlewark'] = gnomes['Brastlewark'].filter(item => {
+          return item.name.toLowerCase().indexOf(search.toLowerCase()) > -1;
+      });
+      for (let i = 100 * (this.page - 1); i < 100 * this.page; i++) {
+        if(gnomes['Brastlewark'][i]) {
+          this.gnomes.push(gnomes['Brastlewark'][i]);
+          console.log(i);
         }
-        setTimeout(() => {
-            console.log('Done');
-            event.target.complete();
+      }
+      setTimeout(() => {
+        console.log('Done');
+        if(event)
+          event.target.complete();
 
-            // App logic to determine if all data is loaded
-            // and disable the infinite scroll
-            if (gnomes.length === this.gnomes.length) {
-                event.target.disabled = true;
-            }
-        }, 500);
+        if (gnomes.length === this.gnomes.length) {
+            event.target.disabled = true;
+        }
+      }, 500);
     });
+  }
+
+  search(event) {
+    this.page = 0;
+    this.gnomes = [];
+    this.searchText = event.detail.value;
+    console.log(event.detail.value);
+    this.loadData(null, event.detail.value)
   }
 
   toggleInfiniteScroll() {
