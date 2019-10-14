@@ -8,14 +8,22 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import {GnomeService} from "../providers/gnome-service";
+import {HttpClientModule} from "@angular/common/http";
+import {PassGnome} from "../providers/pass-gnome";
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule,
+      IonicModule.forRoot(),
+      HttpClientModule,
+      AppRoutingModule],
   providers: [
     StatusBar,
     SplashScreen,
+    GnomeService,
+    PassGnome,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
