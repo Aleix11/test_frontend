@@ -26,14 +26,12 @@ export class HomePage implements OnInit{
   }
 
   showGnome(gnome: Gnome) {
-    console.log(gnome);
     this.passGnome.setGnome(gnome);
     this.router.navigate(['info-gnome']);
   }
 
   loadData(event, search) {
     this.page++;
-    console.log('PAGE ', this.page, search);
     this.gnomeService.getGnome().subscribe(gnomes => {
       gnomes['Brastlewark'] = gnomes['Brastlewark'].filter(item => {
           return item.name.toLowerCase().indexOf(search.toLowerCase()) > -1;
@@ -41,11 +39,9 @@ export class HomePage implements OnInit{
       for (let i = 100 * (this.page - 1); i < 100 * this.page; i++) {
         if(gnomes['Brastlewark'][i]) {
           this.gnomes.push(gnomes['Brastlewark'][i]);
-          console.log(i);
         }
       }
       setTimeout(() => {
-        console.log('Done');
         if(event)
           event.target.complete();
 
@@ -60,7 +56,6 @@ export class HomePage implements OnInit{
     this.page = 0;
     this.gnomes = [];
     this.searchText = event.detail.value;
-    console.log(event.detail.value);
     this.loadData(null, event.detail.value)
   }
 
