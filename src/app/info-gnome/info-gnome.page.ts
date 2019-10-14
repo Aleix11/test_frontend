@@ -14,13 +14,18 @@ export class InfoGnomePage implements OnInit {
 
   constructor(private passGnome: PassGnome,
               public navCtrl: NavController) {
+    this.gnome = this.passGnome.getGnome();
     if(!this.gnome.id) {
         this.navCtrl.navigateRoot('/');
     }
   }
 
   ngOnInit() {
-    this.gnome = this.passGnome.getGnome();
+
+  }
+
+  ionViewDidEnter() {
+      this.gnome = this.passGnome.getGnome();
   }
 
 }

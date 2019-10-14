@@ -26,6 +26,7 @@ export class HomePage implements OnInit{
   }
 
   showGnome(gnome: Gnome) {
+    console.log(gnome);
     this.passGnome.setGnome(gnome);
     this.router.navigate(['info-gnome']);
   }
