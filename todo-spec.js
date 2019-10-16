@@ -8,13 +8,9 @@ describe('Test', function() {
 
         browser.sleep(5000);
 
-        element(by.className('infinite-scroll-enabled'));
-
-        browser.sleep(5000);
-
         element(by.id('0item')).click();
 
-        browser.sleep(10000);
+        browser.sleep(5000);
 
     });
 });
